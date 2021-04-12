@@ -37,8 +37,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.movies = dataDictionary["results"] as! [[String : Any]]
             
             self.tableView.reloadData()
-            print(dataDictionary)
-            
 
            }
         }
@@ -70,7 +68,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return cell
     }
  
-
+    override func prepare(for segue : UIStoryboardSegue, sender : Any?){
+        print("Loading up the details screen")
+        
+        //find selected movie
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPath(for: cell)!
+        let movie = movies[indexPath.row]
+        
+        //pass the selected movie to the details view controller
+        let detailsViewController = segue.destination as! MovieDetailsViewController
+        detailsViewController.movie = movie
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 
 }
 
